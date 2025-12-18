@@ -1,0 +1,41 @@
+# SAL Auth CI/CD
+# ⠠⠎⠁⠇_⠁⠥⠞⠓ Continuous Integration
+
+name: SAL Auth CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+          
+      - name: Test BBID generation
+        run: |
+          python -c "
+          from bbid import bbid_generator, BBID
+          
+          # Generate BBID
+          bbid = bbid_generator.generate('test-user-id', 'testuser')
+          print(f'✓ BBID: {bbid.display}')
+          print(f'✓ Braille: {bbid.braille}')
+          print(f'✓ Haptic segments: {len(bbid.haptic_pattern)}')
+          
+          # Verify
+          assert len(bbid.braille) == 8
+          print('✅ BBID tests passed!')
+          "
