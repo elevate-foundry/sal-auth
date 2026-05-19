@@ -1,0 +1,302 @@
+/* ============================================================
+   BBID Mathematical Framework — Cryptographic Codex Design
+   Design Movement: Swiss International Typographic Style
+   Color: Deep charcoal #0d0f12 bg, warm off-white #e8e4d9 text,
+          electric amber #f5a623 accent
+   Typography: IBM Plex Serif (display/body) + IBM Plex Mono (code/math)
+   Layout: Asymmetric left-rail + main column
+   ============================================================ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.25rem;
+  /* Cryptographic Codex palette */
+  --background: oklch(0.11 0.008 260);       /* #0d0f12 deep charcoal */
+  --foreground: oklch(0.91 0.012 80);        /* #e8e4d9 warm off-white */
+  --card: oklch(0.14 0.008 260);             /* slightly lighter panel */
+  --card-foreground: oklch(0.91 0.012 80);
+  --primary: oklch(0.75 0.16 65);            /* #f5a623 electric amber */
+  --primary-foreground: oklch(0.11 0.008 260);
+  --secondary: oklch(0.18 0.008 260);        /* dark panel */
+  --secondary-foreground: oklch(0.75 0.012 80);
+  --muted: oklch(0.20 0.006 260);
+  --muted-foreground: oklch(0.58 0.012 80);
+  --accent: oklch(0.75 0.16 65);             /* amber */
+  --accent-foreground: oklch(0.11 0.008 260);
+  --border: oklch(0.25 0.008 260);
+  --input: oklch(0.20 0.008 260);
+  --ring: oklch(0.75 0.16 65);
+  --popover: oklch(0.14 0.008 260);
+  --popover-foreground: oklch(0.91 0.012 80);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  code, pre, .katex, .katex-display {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace !important;
+  }
+
+  pre {
+    background: oklch(0.14 0.008 260);
+    border: 1px solid oklch(0.25 0.008 260);
+    border-left: 3px solid oklch(0.75 0.16 65);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  code:not(pre code) {
+    background: oklch(0.18 0.008 260);
+    color: oklch(0.75 0.16 65);
+    padding: 0.15em 0.4em;
+    border-radius: 0.2rem;
+    font-size: 0.875em;
+  }
+
+  a {
+    color: oklch(0.75 0.16 65);
+    text-decoration: none;
+    border-bottom: 1px solid oklch(0.75 0.16 65 / 0.3);
+    transition: border-color 180ms ease-out, color 180ms ease-out;
+  }
+
+  a:hover {
+    border-bottom-color: oklch(0.75 0.16 65);
+  }
+
+  ::selection {
+    background: oklch(0.75 0.16 65 / 0.25);
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* ── Equation block ── */
+  .eq-block {
+    position: relative;
+    background: oklch(0.14 0.008 260);
+    border-left: 3px solid oklch(0.75 0.16 65);
+    padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+    margin: 2rem 0;
+    border-radius: 0 0.25rem 0.25rem 0;
+    overflow-x: auto;
+  }
+
+  .eq-label {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.75 0.16 65);
+    opacity: 0.8;
+  }
+
+  /* ── Section number badge ── */
+  .section-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: oklch(0.75 0.16 65);
+    text-transform: uppercase;
+  }
+
+  /* ── Callout / definition box ── */
+  .callout {
+    background: oklch(0.16 0.01 260);
+    border: 1px solid oklch(0.28 0.01 260);
+    border-left: 3px solid oklch(0.75 0.16 65);
+    padding: 1rem 1.25rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+    margin: 1.5rem 0;
+  }
+
+  .callout-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: oklch(0.75 0.16 65);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Braille display ── */
+  .braille-display {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.5rem;
+    letter-spacing: 0.15em;
+    color: oklch(0.75 0.16 65);
+    line-height: 1;
+  }
+
+  /* ── Scroll-reveal animation ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 350ms cubic-bezier(0.23, 1, 0.32, 1),
+                transform 350ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Left-rail nav link ── */
+  .rail-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: oklch(0.45 0.008 80);
+    border-bottom: none;
+    display: block;
+    padding: 0.25rem 0;
+    transition: color 180ms ease-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rail-link:hover,
+  .rail-link.active {
+    color: oklch(0.75 0.16 65);
+    border-bottom: none;
+  }
+
+  .rail-link.active::before {
+    content: '▶ ';
+    font-size: 0.55rem;
+  }
+
+  /* ── Horizontal rule ── */
+  .section-rule {
+    border: none;
+    border-top: 1px solid oklch(0.25 0.008 260);
+    margin: 3rem 0;
+  }
+
+  /* ── Table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    margin: 1.5rem 0;
+  }
+
+  .data-table th {
+    background: oklch(0.18 0.008 260);
+    color: oklch(0.75 0.16 65);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    border: 1px solid oklch(0.28 0.01 260);
+    text-align: left;
+  }
+
+  .data-table td {
+    padding: 0.55rem 1rem;
+    border: 1px solid oklch(0.22 0.008 260);
+    color: oklch(0.80 0.01 80);
+  }
+
+  .data-table tr:hover td {
+    background: oklch(0.16 0.008 260);
+  }
+
+  /* ── Braille dot grid background ── */
+  .braille-bg {
+    background-image: radial-gradient(
+      circle,
+      oklch(0.75 0.16 65 / 0.06) 1px,
+      transparent 1px
+    );
+    background-size: 20px 24px;
+  }
+}
