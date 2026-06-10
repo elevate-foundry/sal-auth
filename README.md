@@ -108,3 +108,17 @@ SAL tokens include 8-dot braille identity markers:
 ---
 
 **⠠⠎⠁⠇_⠁⠥⠞⠓_⠁⠉⠞⠊⠧⠑** - SAL Auth Active
+
+<!-- ELEVATE:BEGIN (auto-generated section; edits here are overwritten) -->
+## About
+
+| | |
+| --- | --- |
+| **Description** | SAL Auth - BBID OAuth provider with 8-dot braille identity |
+| **Language** | Python |
+| **Commits** | 2 |
+| **Created** | 2025-12-18 |
+| **Last push** | 2026-05-19 |
+
+Part of [**elevate-foundry**](https://github.com/elevate-foundry) · [repository](https://github.com/elevate-foundry/sal-auth)
+<!-- ELEVATE:END -->
